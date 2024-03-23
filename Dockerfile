@@ -4,6 +4,8 @@ FROM node:20.11.1-alpine as build
 # Establece el directorio de trabajo en la imagen Docker
 WORKDIR /app
 
+ENV HOST 0.0.0.0
+
 # Copia el archivo package.json al contenedor
 COPY package*.json ./
 
