@@ -4,7 +4,7 @@ FROM node:20.11.1-alpine as build
 # Establece el directorio de trabajo en la imagen Docker
 WORKDIR /app
 
-ENV HOST 0.0.0.0
+ENV HOST=0.0.0.0
 
 # Copia el archivo package.json al contenedor
 COPY package*.json ./
@@ -28,7 +28,7 @@ FROM nginx:1.21.1-alpine
 COPY --from=build /app/www /usr/share/nginx/html
 
 # Expose port 80
-EXPOSE 80
+EXPOSE 8080
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
