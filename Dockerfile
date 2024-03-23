@@ -1,5 +1,5 @@
 # Establece la imagen base
-FROM node:20.11.1-alpine
+FROM node:20.11.1-alpine as build
 
 # Establece el directorio de trabajo en la imagen Docker
 WORKDIR /app
@@ -23,7 +23,7 @@ RUN ionic build
 FROM nginx:1.21.1-alpine
 
 # Copy the build output to replace the default nginx contents.
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/www /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
