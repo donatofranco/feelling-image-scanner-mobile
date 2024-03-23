@@ -19,8 +19,15 @@ RUN npm install -g @ionic/cli
 # Compila la aplicación
 RUN ionic build
 
-# Expone el puerto 8100
-EXPOSE 8100
+# Use Nginx for serving the app
+FROM nginx:1.21.1-alpine
 
-# Ejecuta la aplicación
-CMD [ "ionic", "serve", "--host=0.0.0.0", "--port=8100" ]
+# Copy the build output to replace the default nginx contents.
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
+
