@@ -22,14 +22,16 @@ RUN npm install -g @ionic/cli
 RUN ionic build
 
 # Use Nginx for serving the app
-FROM nginx:1.21.1-alpine
+FROM nginx:stable-alpine3.17-slim
+
+RUN rm -rf /usr/share/nginx/html/*
 
 # Copy the build output to replace the default nginx contents.
 COPY --from=build /app/www /usr/share/nginx/html
 
+# Replace default Nginx configuration with custom configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
 # Expose port 80
 EXPOSE 8080
-
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
 
